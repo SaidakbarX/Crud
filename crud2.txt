@@ -1,0 +1,148 @@
+namespace ConsoleApp1;
+internal class Program
+{
+    public static List<string> CardNumber = new List<string>();
+    static void Main(string[] texts)
+    {
+
+        StartProgram();
+
+
+
+    }
+    public static void StartProgram()
+    {
+        while (true)
+        {
+            Console.WriteLine("1.Add.card number");
+            Console.WriteLine("2.Erase card number");
+            Console.WriteLine("3.Switch card number");
+            Console.WriteLine("4.Recover card number");
+            Console.WriteLine("Enter: ");
+            var alternative = int.Parse(Console.ReadLine());
+            if (alternative == 1)
+            {
+                Console.WriteLine("enter new card");
+                var cardnumber = Console.ReadLine();
+                var index = AddCard(cardnumber);
+                if (index == -1)
+                {
+                    Console.WriteLine("Not added, error gather ");
+                }
+                else
+                {
+                    Console.WriteLine($"Added successed position: {index + 1}");
+
+                }
+            }
+            else if (alternative == 2)
+            {
+                Console.WriteLine("enter erase card");
+                var cardNumber = Console.ReadLine();
+                var boolResult = RemoveCard(cardNumber);
+                if (boolResult is true)
+                {
+                    Console.WriteLine("Deleted successed");
+                }
+                else
+                {
+                    Console.WriteLine("Not remove , error gathered ");
+                }
+            }
+            else if (alternative == 3)
+            {
+                Console.WriteLine("Enter old card ");
+                var oldCard = Console.ReadLine();
+                Console.WriteLine("enter switch card");
+                var newCard = Console.ReadLine();
+                var boolResult = SwitchCard(oldCard, newCard);
+                if (boolResult is true)
+                {
+                    Console.WriteLine("Switched successfully ");
+                }
+                else
+                {
+                    Console.WriteLine("Not switched,error occurred");
+                }
+            }
+            else if (alternative == 4)
+            {
+                var number = GetCardNumber();
+                foreach (var cardNumber in number)
+                {
+                    Console.WriteLine(cardNumber);
+                }
+
+            }
+            Console.ReadKey();
+            Console.Clear();
+        }
+    }
+    public static int AddCard(string cardNumber)
+    {
+        var exist = CardNumber.Contains(cardNumber);
+        var formatnumber = CheckNumberFormat(cardNumber);
+        if (exist is true || formatnumber is false)
+        {
+            return -1;
+        }
+        CardNumber.Add(cardNumber);
+        return CardNumber.Count - 1;
+    }
+    public static bool CheckNumberFormat(string cardNumber)
+    {
+        if (cardNumber != "16")
+        {
+            return false;
+        }
+        if (cardNumber.StartsWith("8600"))
+        {
+            Console.WriteLine("You Add Uzcard card");
+
+        }
+        else if (cardNumber.StartsWith("9860"))
+
+        {
+            Console.WriteLine("You Add Humo card");
+        }
+        else if (cardNumber.StartsWith("2720"))
+        {
+            Console.WriteLine("You Add MasterCard");
+        }
+        else
+        {
+            return false;
+        }
+        return true;
+
+    }
+    public static bool RemoveCard(string cardNumber)
+    {
+        var exist = CardNumber.Contains(cardNumber);
+        CardNumber.Remove(cardNumber);
+        return exist;
+    }
+    public static bool SwitchCard(string oldCardNumber, string newCardNumber)
+    {
+        var index = CardNumber.IndexOf(oldCardNumber);
+        var boolResult = false;
+        if (index < 0)
+        {
+            return boolResult;
+        }
+        CardNumber[index] = newCardNumber;
+        boolResult = true;
+        return boolResult;
+    }
+    public static List<string> GetCardNumber()
+    {
+        return CardNumber;
+    }
+
+
+
+
+
+
+
+}
