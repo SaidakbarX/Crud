@@ -1,0 +1,164 @@
+namespace ConsoleApp1;
+internal class Program
+{  
+    public static List<string> ContactsManagerAPI = new List<string>();
+    static void Main(string[] texts)
+    {
+        StartProgram();
+    }
+    public static void StartProgram()
+    {
+        while (true)
+        {
+            Console.WriteLine("1.Add.Phone number");
+            Console.WriteLine("2.Erase.Phone number");
+            Console.WriteLine("3.Switch.Phone number");
+            Console.WriteLine("4.Recover.Phone number");
+            Console.Write("Enter: ");
+            var alternative = int.Parse(Console.ReadLine());
+            if (alternative == 1)
+            {
+                Console.WriteLine("Enter new number ");
+                Console.Write("+998");
+                var phoneNumber = Console.ReadLine();
+                var index = AddNumberPhone(phoneNumber);
+                if (index == -1)
+                {
+                    Console.WriteLine(" Not added, error  gathered ");
+                }
+                else
+                {
+                    Console.WriteLine($"Added successed position  : {index + 1}");
+                }
+
+            }
+            else if (alternative == 2)
+            {
+                Console.WriteLine("enter erase number ");
+                Console.Write("+998");
+                var phoneNumber = Console.ReadLine();
+                var boolresult = PhoneNumberDeletion(phoneNumber);
+                if (boolresult is true)
+                {
+                    Console.Write("Deleted successed ");
+                    
+                }
+
+                else
+                {
+                    Console.WriteLine(" Not remove, error  gathered ");
+                }
+            }
+            else if (alternative == 3)
+            {
+                Console.WriteLine("enter old number ");
+                Console.Write("+998");
+                var oldphoneNumber = Console.ReadLine();
+                Console.WriteLine("enter switch number ");
+                Console.Write("+998");
+                var newphoneNumber = Console.ReadLine();
+                var boolresult = SwitchPhoneNumber(oldphoneNumber,newphoneNumber);
+                if (boolresult is true)
+                {
+                    Console.WriteLine("Switched successfully. ");
+                }
+                else
+                {
+                    Console.WriteLine(" Not switched, error occurred.");
+                }
+
+            }
+            else if (alternative == 4)
+            {
+                var number = RecoverPhoneNumber();
+                foreach (var phoneNumber in number)
+                {
+                    
+                    Console.WriteLine("+998" + phoneNumber);
+                }
+            }
+            Console.ReadKey();
+            Console.Clear();
+        }
+    }
+    public static int AddNumberPhone(string number)
+    {
+        var exist = ContactsManagerAPI.Contains(number);
+        var FormatNumber = FormatNumberPhone(number);
+        if (exist is true || FormatNumber is false)
+        {
+            return -1;
+        }
+        ContactsManagerAPI.Add(number);
+        return ContactsManagerAPI.Count - 1;
+    }
+    public static bool FormatNumberPhone(string number)
+    {
+        
+       
+        if (number.Length != '9' && !number.StartsWith("9"))
+        {  
+            return false;
+        }
+        if (number.StartsWith ("90") || number.StartsWith ("91"))
+        {
+            Console.WriteLine("Beeline company's number.");
+        }
+        else if (number.StartsWith("93") || number.StartsWith("93") )
+        {
+            Console.WriteLine("Uceel company's number.");
+        }
+        else if (number.StartsWith("98"))
+        {
+            Console.WriteLine("Perfectum company's number. ");
+
+
+        }
+        else if (number.StartsWith("97"))
+        {
+            Console.WriteLine("MobiUz company's number.");
+        }
+        else if (number.StartsWith("99"))
+        {
+            Console.WriteLine("Uzmobile company's number.");
+        }
+        else
+        {
+            return false;
+        }
+        return true;
+
+
+     
+    }
+   
+    public static bool PhoneNumberDeletion(string number)
+    {
+        var exist = ContactsManagerAPI.Contains(number);
+        ContactsManagerAPI.Remove(number);
+        return exist;
+
+    }
+    public static bool SwitchPhoneNumber(string oldnumber, string  newnumber)
+    {
+        var exist = ContactsManagerAPI.IndexOf(oldnumber);
+        var boolal = false; 
+        if (exist >= 0)
+        {
+            ContactsManagerAPI[exist] = newnumber;
+            boolal = true;
+        }
+        return boolal;
+    }
+    public static List<string> RecoverPhoneNumber()
+    {
+        return ContactsManagerAPI;
+    }
+
+
+
+
+
+    
+
+}
